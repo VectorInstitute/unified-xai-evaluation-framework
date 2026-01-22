@@ -1,7 +1,6 @@
 """Integration test example."""
 
 import pytest
-
 from aieng_template_uv.bar import bar as barfn
 from aieng_template_uv.foo import foo as foofn
 
