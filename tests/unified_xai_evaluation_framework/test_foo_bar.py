@@ -1,8 +1,9 @@
 """Integration test example."""
 
 import pytest
-from aieng_template_uv.bar import bar as barfn
-from aieng_template_uv.foo import foo as foofn
+
+from unified_xai_evaluation_framework.bar import bar as barfn
+from unified_xai_evaluation_framework.foo import foo as foofn
 
 
 @pytest.mark.integration_test()

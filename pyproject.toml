@@ -138,5 +138,5 @@ markers = [
 
 [tool.coverage]
     [tool.coverage.run]
-    source=["src/aieng_template_uv"]
+    source=["src/unified_xai_evaluation_framework"]
     omit=["tests/*", "*__init__.py"]
