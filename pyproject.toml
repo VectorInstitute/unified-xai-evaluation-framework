@@ -21,6 +21,7 @@ dependencies = [
     "tqdm>=4.67.1",
     "typing-extensions>=4.15.0",
     "urllib3==2.6.3",
+    "protobuf<6.33.4",
 ]
 
 [build-system]
@@ -141,11 +142,6 @@ convention = "numpy"
 
 [tool.ruff.lint.pycodestyle]
 max-doc-length = 88
-
-[tool.pytest.ini_options]
-markers = [
-    "integration_test: marks tests as integration tests",
-]
 
 [tool.coverage]
     [tool.coverage.run]
