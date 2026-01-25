@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="From Features to Actions: Explainability in Traditional and Agentic AI Systems">
+  <meta name="description" content="">
+  <meta name="keywords" content="agentic AI systems, traditional AI systems, explainability, AI features, AI actions, interpretable AI, AI transparency, machine learning, AI decision-making">
+  <meta name="author" content="">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+
+  <title>From Features to Actions: Explainability in Traditional and Agentic AI Systems</title>
+
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="apple-touch-icon" href="static/images/favicon.ico">
+
+  <!-- Critical CSS - Load synchronously -->
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <!-- Non-critical CSS - Load asynchronously -->
+  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+  <!-- Fallback for browsers that don't support preload -->
+  <noscript>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+
+  <!-- Fonts - Optimized loading -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Defer non-critical JavaScript -->
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+
+</head>
+
+
+<body>
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <main id="main-content">
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">
+              <img src="static/images/favicon.ico" alt="Logo" style="width: 1.2em; vertical-align: middle; margin-right: 10px;">
+              From Features to Actions: Explainability in Traditional and Agentic AI Systems
+            </h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://github.com/Sindhuja217" target="_blank">Sindhuja Chaduvula</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://ahmedradwan.me/" target="_blank">Kina Kim</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://scholar.google.com/citations?user=LNWuVNkAAAAJ" target="_blank">Aravind Narayanan</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://yani.ai/" target="_blank">Jessee Ho</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://github.com/shainarazavi" target="_blank">Shaina Raza</a><sup>1</sup>
+              </span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>Vector Institute for Artificial Intelligence, <sup>2</sup>IBM</span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="ai ai-arxiv"></i></span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+
+              <!-- <span class="link-block">
+                <a href="https://huggingface.co/datasets/vector-institute/Factuality_Alignment" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-database"></i></span>
+                  <span>Dataset</span>
+                </a>
+              </span> -->
+
+              <span class="link-block">
+                <a href="https://github.com/VectorInstitute/unified-xai-evaluation-framework" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code</span>
+                </a>
+              </span>
+
+              <span class="link-block">
+                <a href="#BibTeX" 
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-quote-left"></i></span>
+                  <span>BibTeX</span>
+                </a>
+              </span>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Teaser video-->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <!-- TODO: Replace with your teaser video -->
+      <!-- <video poster="" id="tree" autoplay controls muted loop height="100%" preload="metadata">
+        <source src="static/videos/banner_video.mp4" type="video/mp4">
+      </video> -->
+      <img src="static/images/ComparisonOfMEP.png" alt="Comparison of MEPs" style="width:100%; height:auto;">
+      <!-- TODO: Replace with your video description -->
+      <h2 class="subtitle has-text-centered">
+        Comparisonof Minimal Explanation Packet (MEP) structure across static and agentic paradigms
+      </h2>
+    </div>
+  </div>
+</section>
+<!-- End teaser video -->
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <!-- TODO: Replace with your paper abstract -->
+          <p>
+            TODO: Add abstract here.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <h2 class="title is-4 has-text-centered">
+      Table 1: Interpretability Method Families for Static and Agentic Models
+    </h2>
+
+    <div class="table-container">
+      <table class="table is-fullwidth is-hoverable"
+             style="border-collapse: collapse; font-family: 'Latin Modern Roman', serif;">
+
+        <thead>
+          <tr style="border-top: 2px solid black; border-bottom: 1px solid black;">
+            <th class="has-text-left">Method family</th>
+            <th class="has-text-left">Representative methods</th>
+            <th class="has-text-left">Explanation artifact</th>
+            <th class="has-text-left">Role in static models</th>
+            <th class="has-text-left">Additional needs in agentic systems</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td><strong>Attribution and saliency</strong></td>
+            <td>LIME, SHAP, PDP saliency, Grad-CAM</td>
+            <td>Feature scores, heatmaps</td>
+            <td>Identify input regions/features that drive a single prediction</td>
+            <td>
+              Explain action selection at each step; connect attributions to tool choice;
+              relate decisions to plan/state evolution
+            </td>
+          </tr>
+
+          <tr style="background-color:#f9f9f9;">
+            <td><strong>Attention-based analyses</strong></td>
+            <td>Attention rollout, relevance propagation</td>
+            <td>Token influence paths</td>
+            <td>Interpret token-level influence during generation</td>
+            <td>
+              Track attention shifts across steps (planning → retrieval → execution)
+              and across multiple context sources
+            </td>
+          </tr>
+
+          <tr>
+            <td><strong>Concept-based interpretability</strong></td>
+            <td>Probes, TCAV, VLM concepts</td>
+            <td>Concept scores, probe accuracy</td>
+            <td>Test whether concepts are encoded in representations</td>
+            <td>
+              Represent goals/subgoals, constraints, tool intent, and state variables
+              beyond raw feature concepts
+            </td>
+          </tr>
+
+          <tr style="background-color:#f9f9f9;">
+            <td><strong>Mechanistic interpretability</strong></td>
+            <td>Circuits, ACDC, sparse autoencoders</td>
+            <td>Causal subgraphs, features</td>
+            <td>Localize internal mechanisms behind predictions</td>
+            <td>
+              Analyze causal interactions across memory modules, tool interfaces,
+              retrieval components, and policy updates
+            </td>
+          </tr>
+
+          <tr>
+            <td><strong>Reasoning and execution traces</strong></td>
+            <td>CoT, ReAct, Reflexion</td>
+            <td>Stepwise traces, logs</td>
+            <td>Provide a human-readable rationale for one output</td>
+            <td>
+              Require trajectory-level linking (reasoning → action → observation)
+              and replayable traces tied to outcomes
+            </td>
+          </tr>
+
+          <tr style="background-color:#f9f9f9;">
+            <td><strong>Retrieval provenance</strong></td>
+            <td>Attention visualization, evidence paths</td>
+            <td>Citations, provenance graphs</td>
+            <td>Justify outputs using retrieved evidence</td>
+            <td>
+              Attribute which evidence drove which actions and revisions;
+              detect retrieval-induced failure cascades
+            </td>
+          </tr>
+
+          <tr>
+            <td><strong>Counterfactual explanations</strong></td>
+            <td>Recourse, counterfactual evaluation</td>
+            <td>What-if alternatives</td>
+            <td>Identify minimal input changes to alter prediction</td>
+            <td>
+              Define counterfactuals over trajectories: alternative plans,
+              tool calls, and decision branches over time
+            </td>
+          </tr>
+
+          <tr style="background-color:#f9f9f9;">
+            <td><strong>Verification and auditability</strong></td>
+            <td>Simulatability, robustness checks</td>
+            <td>Faithfulness signals</td>
+            <td>Optional evaluation layer for explanation quality</td>
+            <td>
+              Make verification first-class: faithfulness checks over long horizons,
+              consistency under replay, and rubric flags
+            </td>
+          </tr>
+
+          <tr style="border-bottom:2px solid black;">
+            <td><strong>Agent loop interpretability</strong></td>
+            <td>Causal probing via dialogue</td>
+            <td>Hypotheses with interventions</td>
+            <td>Not applicable</td>
+            <td>
+              Explain multi-turn behavior via validated interventions on state,
+              tool access, or observations
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Image Section -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">
+          Trace-based evaluation pipeline
+        </h2>
+        <div class="content">
+          <img
+            src="static/images/framework.png"
+            alt="Description of your image"
+            style="width: 80%; max-width: 100%; height: auto; border: none"
+          />
+        </div>
+      </div>
+    </div>
+    <!--/ Image Section -->
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Image Section -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">
+          Global SHAP beeswarm showing features driving predictions toward IT or NON-IT.
+        </h2>
+        <div class="content">
+          <img
+            src="static/images/shap_global.png"
+            alt="Description of your image"
+            style="width: 80%; max-width: 100%; height: auto; border: none"
+          />
+        </div>
+      </div>
+    </div>
+    <!--/ Image Section -->
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <h2 class="title is-4 has-text-centered">
+      Table 2: Static vs. agentic explainability on the bridging job-posting agent task
+    </h2>
+
+    <div class="table-container">
+      <table class="table is-fullwidth is-hoverable"
+             style="border-collapse: collapse; font-family: 'Latin Modern Roman', serif;">
+
+        <thead>
+          <tr style="border-top: 2px solid black; border-bottom: 1px solid black;">
+            <th class="has-text-left">Approach</th>
+            <th class="has-text-left">Unit explained</th>
+            <th class="has-text-left">Primary artifact</th>
+            <th class="has-text-left">Grounding evidence</th>
+            <th class="has-text-left">What it can diagnose</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td><strong>Static</strong><br><span style="white-space:nowrap;">(SHAP/LIME/PDP)</span></td>
+            <td>Final prediction</td>
+            <td>Feature attributions</td>
+            <td>Input tokens/features</td>
+            <td>Token-level drivers of the outcome, but not intermediate decisions</td>
+          </tr>
+
+          <tr style="background-color:#f9f9f9;">
+            <td><strong>Agentic</strong><br>(Trace rubrics)</td>
+            <td>Trajectory</td>
+            <td>Execution trace + rubric flags</td>
+            <td>Tool calls, arguments, observations, state updates</td>
+            <td>
+              Failure localization (tool misuse, state drift, missing recovery, plan deviation)
+            </td>
+          </tr>
+
+          <tr style="border-bottom:2px solid black;">
+            <td><strong>MEP (ours)</strong></td>
+            <td>Prediction + trajectory</td>
+            <td>Artifact + context verification</td>
+            <td>Attributions + trace + outcome-linked signals</td>
+            <td>End-to-end oversight with decision-level and execution-level accountability</td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+</section>
+
+<!--BibTex citation -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <div class="bibtex-header">
+        <h2 class="title">BibTeX</h2>
+        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+          <i class="fas fa-copy"></i>
+          <span class="copy-text">Copy</span>
+        </button>
+      </div>
+      <pre id="bibtex-code"><code>To be released</code></pre>
+    </div>
+</section>
+<!--End BibTex citation -->
+
+<!-- Acknowledgments -->
+<section class="section" id="Acknowledgments">
+  <div class="container is-max-desktop content">
+    <h2 class="title">Acknowledgments</h2>
+    <p>
+      Resources used in preparing this research were provided, in part, by the Province of Ontario and the Government of Canada through CIFAR, as well as companies sponsoring the Vector Institute
+      (<a href="http://www.vectorinstitute.ai/#partners" target="_blank" rel="noopener noreferrer">partners</a>).
+      This research was funded by the European Union’s Horizon Europe research and innovation programme under the AIXPERT project (Grant Agreement No. 101214389), which aims to develop an agentic,
+      multi-layered, GenAI-powered framework for creating explainable, accountable, and transparent AI systems.
+    </p>
+  </div>
+</section>
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            You are free to borrow the source code of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Statcounter tracking code -->
+
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+  </body>
+  </html>
