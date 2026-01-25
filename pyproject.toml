@@ -8,7 +8,18 @@ license = "Apache-2.0"
 repository = "https://github.com/VectorInstitute/unified-xai-evaluation-framework"
 requires-python = ">=3.12"
 dependencies = [
+    "docent-python>=0.1.47a0",
     "filelock==3.20.3",
+    "kagglehub>=0.4.1",
+    "lime>=0.2.0.1",
+    "matplotlib>=3.10.8",
+    "numpy>=2.4.1",
+    "openpyxl>=3.1.5",
+    "pandas>=3.0.0",
+    "python-dotenv>=1.2.1",
+    "scikit-learn>=1.8.0",
+    "tqdm>=4.67.1",
+    "typing-extensions>=4.15.0",
     "urllib3==2.6.3",
 ]
 
@@ -46,7 +57,7 @@ default-groups = ["dev", "docs"]
 
 [tool.mypy]
 follow_imports = "normal"
-ignore_missing_imports = false
+ignore_missing_imports = true
 install_types = true
 pretty = true
 non_interactive = true
@@ -138,5 +149,8 @@ markers = [
 
 [tool.coverage]
     [tool.coverage.run]
-    source=["src/unified_xai_evaluation_framework"]
+    source=["src/"]
     omit=["tests/*", "*__init__.py"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
