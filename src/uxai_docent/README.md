@@ -79,7 +79,7 @@ APIs:
 
 ## Behavioral attribution pipeline (encoding → SHAP → plots)
 
-1) Encode rubric labels to numeric  
+1) Encode rubric labels to numeric
 - Script: [label_encoding.py](label_encoding.py)
 - Shell
   ```sh
@@ -88,7 +88,7 @@ APIs:
     --output data/taubench_airline_encoded.xlsx
   ```
 
-2) Fit logistic regression and compute per-run SHAP  
+2) Fit logistic regression and compute per-run SHAP
 - Script: [logistic_regression.py](logistic_regression.py)
 - Shell
   ```sh
@@ -97,7 +97,7 @@ APIs:
     --output data/taubench_airline_shap_per_run.csv
   ```
 
-3) Aggregate global SHAP ranking  
+3) Aggregate global SHAP ranking
 - Script: [shap_global.py](shap_global.py)
 - Shell
   ```sh
@@ -106,7 +106,7 @@ APIs:
     --output data/taubench_airline_shap_global_ranking.csv
   ```
 
-4) Visualize SHAP beeswarm  
+4) Visualize SHAP beeswarm
 - Script: [shap_plot.py](shap_plot.py)
 - Shell
   ```sh
