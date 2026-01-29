@@ -12,7 +12,7 @@ from docent.data_models.chat import parse_chat_message
 
 
 TRACE_PATH = (
-    "./Traces/Assistantbench/"
+    "./data/Traces/Assistantbench/"
     "assistantbench_assistantbench_browser_agent_gpt4120250414_1746225570_UPLOAD.json"
 )
 
