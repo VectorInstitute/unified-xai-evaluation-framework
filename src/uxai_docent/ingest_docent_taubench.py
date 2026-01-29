@@ -11,9 +11,7 @@ from docent.data_models import AgentRun, Transcript
 from docent.data_models.chat import parse_chat_message
 
 
-TRACE_PATH = (
-    "./Traces/Taubenchairline/Taubenchairline/taubench_airline_1743994890_UPLOAD.json"
-)
+TRACE_PATH = "./data/Traces/Taubenchairline/Taubenchairline/taubench_airline_1743994890_UPLOAD.json"
 
 
 def safe_content(value: Any) -> str:
