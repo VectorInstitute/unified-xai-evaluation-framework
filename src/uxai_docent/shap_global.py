@@ -1,18 +1,27 @@
-import pandas as pd
+"""SHAP Global Feature Importance Ranking for TauBench Airline Dataset."""
+
 import argparse
 
-SHAP_PATH = (
-    "./data/taubench_airline_shap_per_run.csv"
-)
-OUTPUT_PATH = (
-    "./data/taubench_airline_shap_global_ranking.csv"
-)
+import pandas as pd
+
+
+SHAP_PATH = "./data/taubench_airline_shap_per_run.csv"
+OUTPUT_PATH = "./data/taubench_airline_shap_global_ranking.csv"
 
 if __name__ == "__main__":
     # Argument parser
-    parser = argparse.ArgumentParser(description="Encode categorical labels in the dataset.")
-    parser.add_argument("--input", type=str, default=SHAP_PATH, help="Path to the input SHAP CSV file.")
-    parser.add_argument("--output", type=str, default=OUTPUT_PATH, help="Path to save the global SHAP ranking CSV file.")
+    parser = argparse.ArgumentParser(
+        description="Encode categorical labels in the dataset."
+    )
+    parser.add_argument(
+        "--input", type=str, default=SHAP_PATH, help="Path to the input SHAP CSV file."
+    )
+    parser.add_argument(
+        "--output",
+        type=str,
+        default=OUTPUT_PATH,
+        help="Path to save the global SHAP ranking CSV file.",
+    )
     args = parser.parse_args()
 
     shap_df = pd.read_csv(args.input)
@@ -23,13 +32,13 @@ if __name__ == "__main__":
         "State Tracking Consistency",
         "Tool Correctness",
         "Tool Choice Accuracy",
-        "Plan Adherence Metric"
+        "Plan Adherence Metric",
     ]
 
     global_shap = (
         shap_df[X_cols]
-        .abs()          # magnitude of contribution
-        .mean()         # average across runs
+        .abs()  # magnitude of contribution
+        .mean()  # average across runs
         .sort_values(ascending=False)
         .reset_index()
     )
