@@ -12,7 +12,7 @@ from docent.data_models.chat import parse_chat_message
 
 
 TRACE_PATH = (
-    "./Traces/Taubenchairline/Taubenchairline/taubench_airline_1743994890_UPLOAD.json"
+    "./data/Traces/Taubenchairline/Taubenchairline/taubench_airline_1743994890_UPLOAD.json"
 )
 
 
