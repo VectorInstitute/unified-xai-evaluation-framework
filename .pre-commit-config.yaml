@@ -1,5 +1,6 @@
 exclude: |
   (?x)^(
+    .*\.ipynb|
     .*\.xlsx|
     .*\.xls|
     .*\.csv|
