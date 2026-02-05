@@ -1,74 +1,191 @@
-# AI Engineering template (with uv)
+# From Features to Actions: Explainability Across Static and Agentic AI Systems
 
-----------------------------------------------------------------------------------------
+### A Unified Experimental Framework for Static Attribution and Trajectory-Level Explainability
 
-[![code checks](https://github.com/VectorInstitute/aieng-template-uv/actions/workflows/code_checks.yml/badge.svg)](https://github.com/VectorInstitute/aieng-template-uv/actions/workflows/code_checks.yml)
-[![unit tests](https://github.com/VectorInstitute/aieng-template-uv/actions/workflows/unit_tests.yml/badge.svg)](https://github.com/VectorInstitute/aieng-template-uv/actions/workflows/unit_tests.yml)
-[![integration tests](https://github.com/VectorInstitute/aieng-template-uv/actions/workflows/integration_tests.yml/badge.svg)](https://github.com/VectorInstitute/aieng-template-uv/actions/workflows/integration_tests.yml)
-[![docs](https://github.com/VectorInstitute/aieng-template-uv/actions/workflows/docs.yml/badge.svg)](https://github.com/VectorInstitute/aieng-template-uv/actions/workflows/docs.yml)
-[![codecov](https://codecov.io/github/VectorInstitute/aieng-template-uv/graph/badge.svg?token=83MYFZ3UPA)](https://codecov.io/github/VectorInstitute/aieng-template-uv)
-![GitHub License](https://img.shields.io/github/license/VectorInstitute/aieng-template-uv)
+<p align="center" style="margin-top: -10px; margin-bottom: -10px;">
+  <img src="docs/static/images/ComparisonOfMEP.png" width="420"/>
+</p>
+<br>
 
-A template repo for AI Engineering projects (using ``python``) and ``uv``. This
-template is like our original AI Engineering [template](https://github.com/VectorInstitute/aieng-template),
-however, unlike how that template uses poetry, this one uses uv for dependency
-management (as well as packaging and publishing).
+<p align="center">
+  <b>📄 Paper:</b> <em>From Features to Actions: Explainability in Traditional and Agentic AI Systems</em>  
+  &nbsp;|&nbsp;
+<b>💻 Code:</b> <a href="https://github.com/VectorInstitute/unified-xai-evaluation-framework">GitHub</a>
+  &nbsp;|&nbsp;
+  <b>📊 Benchmarks:</b> TAU-bench Airline, AssistantBench, Job Postings
+</p>
 
-## 🧑🏿‍💻 Developing
+---
 
-### Installing dependencies
+## 🧭 About
 
-The development environment can be set up using
-[uv](https://github.com/astral-sh/uv?tab=readme-ov-file#installation). Hence, make sure it is
-installed and then run:
+This repository contains the **reproducible experimental code** accompanying the paper:
 
-```bash
-uv sync
-source .venv/bin/activate
+> **From Features to Actions: Explainability in Traditional and Agentic AI Systems**
+
+The project studies **how explainability requirements fundamentally change** when moving from:
+
+* **Static prediction systems** (single input → single output), to
+* **Agentic AI systems** (multi-step trajectories involving planning, tool use, and state updates)
+
+We empirically compare:
+
+* **Attribution-based explainability** (SHAP, LIME, saliency)
+* **Trace-based, trajectory-level diagnostics** grounded in execution logs
+
+across **both paradigms**, demonstrating that methods effective for static models **do not reliably diagnose agent failures**, motivating a shift toward **trajectory-level explainability**.
+
+---
+
+## ✨ Key Contributions
+
+* 🔍 Empirical comparison of static vs. agentic explainability under a unified framework
+* 📐 Formal distinction between **feature-level attribution** and **trajectory-level diagnostics**
+* 🧪 Reproducible experiments spanning:
+
+  * Traditional ML text classification
+  * Tool-using LLM agents on real benchmarks
+* 🧠 Introduction of **behavioral rubric–based failure analysis** for agentic systems
+* 📦 End-to-end pipelines for ingestion, evaluation, and explainability analysis
+
+---
+
+## 🧠 Conceptual Overview
+
+| Paradigm   | Unit of Explanation   | Primary Artifact           | Typical Question Answered      |
+| ---------- | --------------------- | -------------------------- | ------------------------------ |
+| Static ML  | Single prediction     | Feature attributions       | *Why this label?*              |
+| Agentic AI | Multi-step trajectory | Execution traces + rubrics | *What failed, where, and why?* |
+
+This repository operationalizes this distinction through **two complementary experimental tracks**, described below.
+
+---
+
+## 📦 Repository Structure
+
+```
+src/
+│
+├── uxai_docent/                 # Agentic explainability experiments
+│
+├── traditional_xai/             # Static ML explainability experiments
+│   └── xai-experiment.ipynb
+├── README.md                    # (this file)
 ```
 
-In order to install dependencies for testing (codestyle, unit tests, integration tests),
-run:
+---
 
-```bash
-uv sync --dev
-source .venv/bin/activate
+## 🧪 Experiment 1: Traditional XAI for Static Text Classification (`traditional_xai/`)
+
+This folder contains a **fully self-contained notebook experiment** for explainability in static prediction settings.
+
+### Task
+
+* Binary text classification: **IT vs. Non-IT job postings**
+* Dataset: Kaggle Job Postings
+
+### Models
+
+* Logistic Regression + TF-IDF
+* Text CNN baseline
+
+### Explainability Methods
+
+* SHAP (global & local)
+* LIME (local, HTML export)
+* Token-level SHAP dependence plots
+* Gradient-based saliency (CNN)
+* Feature masking sensitivity tests
+* Bootstrap-based explanation stability (Spearman ρ)
+
+---
+
+## 🧪 Experiment 2: Agentic Explainability with Execution Traces (`uxai_docent/`)
+
+This folder implements **trajectory-level explainability** for tool-using LLM agents evaluated on:
+
+* **TAU-bench Airline**
+* **AssistantBench**
+
+### Core Capabilities
+
+* Ingest full **HAL-Harness execution traces**
+* Apply **Docent-based behavioral rubric evaluation**
+* Quantify:
+
+  * Failure-mode prevalence
+  * Reliability correlates
+* Bridge trace diagnostics with **SHAP over rubric features**
+
+### Behavioral Rubrics
+
+Each agent run is labeled using binary rubric flags:
+
+* Intent Alignment
+* Plan Adherence
+* Tool Correctness
+* Tool Choice Accuracy
+* State Tracking Consistency
+* Error Awareness & Recovery
+
+These enable **per-run failure localization**, rather than post-hoc outcome explanation. This pipeline demonstrates that **trace-grounded diagnostics outperform attribution methods** for explaining agent failures.
+
+---
+
+### Key Finding
+
+Attribution-based explanations are **stable and meaningful** in static settings, but **do not generalize** to explaining multi-step agent behavior.
+
+---
+
+## 🔬 Bridging the Paradigms
+
+To directly compare explainability methods, we perform a **bridging experiment**:
+
+1. Encode agent trajectories into **low-dimensional rubric features**
+2. Train a logistic regression outcome predictor
+3. Apply SHAP to rubric-level features
+
+**Result:**
+SHAP recovers sensible *global correlations*, but still fails to provide **trace-grounded, per-run diagnoses**, reinforcing the need for trajectory-level explanations.
+
+---
+
+## 📊 Data & Artifacts
+
+* Agent traces (HAL-Harness JSON)
+* Rubric evaluation tables (CSV / XLSX)
+* SHAP outputs:
+
+  * Per-run values
+  * Global rankings
+  * Beeswarm plots
+
+All example paths are documented inside the respective subfolder READMEs.
+
+---
+
+## 📖 Citation
+
+If you use this repository, please cite:
+
+```bibtex
+To be added upon paper publication.
 ```
 
-In order to exclude installation of packages from a specific group (e.g. docs),
-run:
+---
 
-```bash
-uv sync --no-group docs
-```
+## 📬 Contact
 
-If you're coming from `poetry` then you'll notice that the virtual environment
-is actually stored in the project root folder and is by default named as `.venv`.
-The other important note is that while `poetry` uses a "flat" layout of the project,
-`uv` opts for the the "src" layout. (For more info, see [here](https://packaging.python.org/en/latest/discussions/src-layout-vs-flat-layout/))
+* Open a GitHub Issue for bugs or questions
+* For research inquiries, contact the corresponding author listed in the paper (shaina.raza@vectorinstitute.ai)
 
-### Poetry to UV
+---
 
-The table below provides the `uv` equivalent counterparts for some of the more
-common `poetry` commands.
+## 🙏 Acknowledgments
 
-| Poetry                                               | UV                                          |
-|------------------------------------------------------|---------------------------------------------|
-| `poetry new <project-name>`  # creates new project   | `uv init <project-name>`                    |
-| `poetry install`  # installs existing project        | `uv sync`                                   |
-| `poetry install --with docs,test`                    | `uv sync --group docs --group test`         |
-| `poetry add numpy`                                   | `uv add numpy`                              |
-| `poetry add pytest pytest-asyncio --groups dev`      | `uv add pytest pytest-asyncio --groups dev` |
-| `poetry remove numpy`                                | `uv remove numpy`                           |
-| `poetry lock`                                        | `uv lock`                                   |
-| `poetry run <cmd>`  # runs cmd with the project venv | `uv run <cmd>`                              |
-| `poetry build`                                       | `uv build`                                  |
-| `poetry publish`                                     | `uv publish`                                |
-| `poetry cache clear pypi --all`                      | `uv cache clean`                            |
+This research was supported by the **Vector Institute for Artificial Intelligence** and funded in part by public and institutional partners.
 
-For the full list of `uv` commands, you can visit the official [docs](https://docs.astral.sh/uv/reference/cli/#uv).
+---
 
-### Tidbit
-
-If you're curious about what "uv" stands for, it appears to have been more or
-less chosen [randomly](https://github.com/astral-sh/uv/issues/1349#issuecomment-1986451785).
+**This repository is intended for researchers studying explainability, agent evaluation, and reliable AI systems.**
