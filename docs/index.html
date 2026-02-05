@@ -71,25 +71,25 @@
                 <a href="https://github.com/Sindhuja217" target="_blank">Sindhuja Chaduvula</a><sup>1</sup>,
               </span>
               <span class="author-block">
-                <a href="https://ahmedradwan.me/" target="_blank">Jessee Ho</a><sup>1</sup>,
+                <a href="https://www.linkedin.com/in/jesseeho/" target="_blank">Jessee Ho</a><sup>1</sup>,
               </span>
               <span class="author-block">
-                <a href="https://scholar.google.com/citations?user=LNWuVNkAAAAJ" target="_blank">Kina Kim</a><sup>2</sup>,
+                <a href="https://www.linkedin.com/in/giyeonkinakim/" target="_blank">Kina Kim</a><sup>2</sup>,
               </span>
               <span class="author-block">
-                <a href="https://yani.ai/" target="_blank">Aravind Narayanan</a><sup>1</sup>,
+                <a href="https://scholar.google.com/citations?user=KCVuy2UAAAAJ&hl=en" target="_blank">Aravind Narayanan</a><sup>1</sup>,
               </span>
               <span class="author-block">
-                <a href="https://yani.ai/" target="_blank">Mahshid Alinoori</a><sup>1</sup>,
+                <a href="https://scholar.google.com/citations?user=4fKZfJkAAAAJ&hl=en" target="_blank">Mahshid Alinoori</a><sup>1</sup>,
               </span>
               <span class="author-block">
-                <a href="https://yani.ai/" target="_blank">Muskan Garg</a><sup>3</sup>,
+                <a href="https://scholar.google.com/citations?user=_FqdtUsAAAAJ&hl=en" target="_blank">Muskan Garg</a><sup>3</sup>,
               </span>
               <span class="author-block">
-                <a href="https://yani.ai/" target="_blank">Dhanesh Ramachandram</a><sup>1</sup>,
+                <a href="https://scholar.google.ca/citations?user=0nVlbNgAAAAJ&hl=en" target="_blank">Dhanesh Ramachandram</a><sup>1</sup>,
               </span>
               <span class="author-block">
-                <a href="https://github.com/shainarazavi" target="_blank">Shaina Raza</a><sup>1</sup>
+                <a href="https://scholar.google.com/citations?hl=en&user=chcz7RMAAAAJ" target="_blank">Shaina Raza</a><sup>1</sup>
               </span>
             </div>
 
@@ -169,40 +169,24 @@
       <div class="column is-four-fifths">
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
-          <!-- TODO: Replace with your paper abstract -->
           <p>
-            Over the last decade, <strong>explainable AI</strong> has primarily focused on interpreting
-            <em>individual model predictions</em>, producing <strong>post-hoc explanations</strong>
-            that relate inputs to outputs under a fixed decision structure.
-            Recent advances in <strong>large language models (LLMs)</strong> have enabled
-            <strong>agentic AI systems</strong> whose behaviour unfolds over
-            <em>multi-step trajectories</em>.
-            In these settings, <strong>success and failure</strong> are determined by
-            <em>sequences of decisions</em> rather than a single output.
-            While useful, it remains unclear how explanation approaches designed for
-            <strong>static predictions</strong> translate to
-            <strong>agentic settings</strong> where behaviour emerges over time.
-            In this work, we <strong>bridge the gap between static and agentic explainability</strong>
-            by comparing <em>attribution-based explanations</em> with
-            <em>trace-based diagnostics</em> across both settings.
-            To make this distinction explicit, we empirically compare
-            <strong>attribution-based explanations</strong> used in
-            <em>static classification tasks</em> with
-            <strong>trace-based diagnostics</strong> used in
-            <em>agentic benchmarks (TAU-bench Airline and AssistantBench)</em>.
-            Our results show that while attribution methods achieve
-            <strong>stable feature rankings</strong> in static settings
-            (<em>Spearman ρ = 0.86</em>), they
-            <strong>cannot be applied reliably</strong> to diagnose
-            <em>execution-level failures</em> in agentic trajectories.
-            In contrast, <strong>trace-grounded rubric evaluation</strong> for agentic settings
-            <strong>consistently localizes behaviour breakdowns</strong> and reveals that
-            <em>state tracking inconsistency</em> is
-            <strong>2.7× more prevalent</strong> in failed runs and
-            <strong>reduces success probability by 49%</strong>.
-            These findings motivate a shift towards
-            <strong>trajectory-level explainability</strong> for agentic systems for
-            evaluating and diagnosing <em>autonomous AI behaviour</em>.
+            Over the last decade, explainable AI has primarily focused on interpreting individual model predictions,
+            producing post-hoc explanations that relate inputs to outputs under a fixed decision structure.
+            Recent advances in large language models (LLMs) have enabled agentic AI systems whose behaviour unfolds
+            over multi-step trajectories, where success and failure are determined by sequences of decisions rather
+            than a single output. While effective for static predictions, it remains unclear how existing explanation
+            approaches translate to agentic settings where behaviour emerges over time. 
+            In this work, we <strong>bridge the gap between static and agentic explainability</strong> by comparing
+            attribution-based explanations with trace-based diagnostics across both settings.
+            We contrast attribution methods used in static classification tasks with trace-based diagnostics applied
+            to agentic benchmarks (TAU-bench Airline and AssistantBench).
+            Our results show that attribution methods produce stable feature rankings in static settings
+            (Spearman ρ = 0.86) but fail to diagnose execution-level failures in agentic trajectories.
+            By contrast, trace-based evaluation consistently localizes behaviour breakdowns and reveals that
+            <em>state-tracking inconsistency</em> is 2.7× more prevalent in failed runs and reduces success probability
+            by 49%.
+            These findings motivate a shift toward <strong>trajectory-level explainability</strong> for evaluating and
+            diagnosing autonomous agent behaviour.
           </p>          
         </div>
       </div>
