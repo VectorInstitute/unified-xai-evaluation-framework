@@ -8,7 +8,8 @@
 <br>
 
 <p align="center">
-  <b>📄 Paper:</b> <em>From Features to Actions: Explainability in Traditional and Agentic AI Systems</em>  
+  <em>From Features to Actions: Explainability in Traditional and Agentic AI Systems</em>
+  (<a href="https://arxiv.org/abs/2602.06841">arXiv:2602.06841</a>)
   &nbsp;|&nbsp;
 <b>💻 Code:</b> <a href="https://github.com/VectorInstitute/unified-xai-evaluation-framework">GitHub</a>
   &nbsp;|&nbsp;
