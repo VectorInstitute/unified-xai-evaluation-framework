@@ -170,7 +170,12 @@ All example paths are documented inside the respective subfolder READMEs.
 If you use this repository, please cite:
 
 ```bibtex
-To be added upon paper publication.
+@article{featurestoactions2026,
+  title   = {From Features to Actions: Explainability in Traditional and Agentic AI Systems},
+  author  = {Chaduvula, Sindhuja and Ho, Jessee and Kim, Kina and Narayanan, Aravind and Alinoori, Mahshid and Garg, Muskan and Ramachandram, Dhanesh and Raza, Shaina},
+  journal = {arXiv preprint arXiv:2602.06841},
+  year    = {2026}
+}
 ```
 
 ---
