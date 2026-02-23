@@ -9,9 +9,6 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import pandas as pd
 
-# ============================================================
-# External / Unsupported Task Detection (STRICT CLOSED WORLD)
-# ============================================================
 
 EXTERNAL_PATTERNS = [
     r"wikipedia",
@@ -46,9 +43,7 @@ IMAGE_PATTERNS = [
     r"\bphoto\b",
 ]
 
-# ============================================================
-# Output Parsing
-# ============================================================
+
 
 FINAL_RE = re.compile(
     r"(?:^|\n)\s*(?:FINAL\s+ANSWER|Final\s+Answer|Answer)\s*:\s*(.+?)\s*$",
@@ -63,6 +58,7 @@ PLAN_LINE_RE = re.compile(r"^\s*\d+\.\s*(.+)", re.MULTILINE)
 
 
 def extract_final_answer(text: str) -> str:
+    """Extracts the final answer line from model output or returns last non-empty line as fallback."""
     if not text:
         return ""
     m = FINAL_RE.search(text)
@@ -74,10 +70,12 @@ def extract_final_answer(text: str) -> str:
 
 
 def extract_plan_steps(text: str) -> List[str]:
+    """Extracts numbered plan steps from the model-generated planning text."""
     return PLAN_LINE_RE.findall(text or "")
 
 
 def extract_tool_calls(text: str) -> List[Tuple[str, str]]:
+    """Parses and returns tool calls emitted by the model in CALL: format."""
     calls: List[Tuple[str, str]] = []
     if not text:
         return calls
@@ -87,10 +85,6 @@ def extract_tool_calls(text: str) -> List[Tuple[str, str]]:
             calls.append((m.group(1), m.group(2)))
     return calls
 
-
-# ============================================================
-# Safe Calculator
-# ============================================================
 
 _SAFE_OPS = {
     ast.Add: operator.add,
@@ -106,6 +100,7 @@ _SAFE_OPS = {
 
 
 def _safe_eval(node: ast.AST) -> Any:
+    """Safely evaluates an AST node using a restricted operator allowlist."""
     if isinstance(node, ast.Expression):
         return _safe_eval(node.body)
     if isinstance(node, ast.Constant) and isinstance(node.value, (int, float)):
@@ -118,13 +113,9 @@ def _safe_eval(node: ast.AST) -> Any:
 
 
 def safe_calculator(expr: str) -> Any:
+    """Parses and safely evaluates a mathematical expression string."""
     tree = ast.parse(expr.strip(), mode="eval")
     return _safe_eval(tree)
-
-
-# ============================================================
-# Scratchpad (persistent within a task)
-# ============================================================
 
 class Scratchpad:
     def __init__(self, max_chars: int = 14000):
@@ -132,15 +123,18 @@ class Scratchpad:
         self.max_chars = int(max_chars)
 
     def add(self, text: str):
+        """Adds text to the scratchpad while enforcing max character limit."""
         if text is None:
             return
         self.entries.append(str(text))
         self._truncate()
 
     def clear(self):
+        """Clears all scratchpad entries for a new task."""
         self.entries = []
 
     def _truncate(self):
+        """Truncates scratchpad content to maintain max character constraint."""
         s = "\n".join(self.entries)
         if len(s) <= self.max_chars:
             return
@@ -149,19 +143,18 @@ class Scratchpad:
         self.entries = [tail]
 
     def __str__(self) -> str:
+        """Returns full scratchpad content as a single string."""
         return "\n".join(self.entries)
 
 
-# ============================================================
-# Structured DataFrame Helpers (conservative "safe-ish")
-# ============================================================
-
 def _looks_like_json(s: str) -> bool:
+    """Checks whether a string appears to be JSON formatted."""
     s = (s or "").strip()
     return (s.startswith("{") and s.endswith("}")) or (s.startswith("[") and s.endswith("]"))
 
 
 def _parse_arg_maybe_json(arg: str) -> Any:
+    """Attempts to parse a tool argument as JSON, otherwise returns raw string."""
     arg = (arg or "").strip()
     if _looks_like_json(arg):
         try:
@@ -192,6 +185,7 @@ class DataFrameStore:
         self.source: Optional[str] = None
 
     def load(self, path: str, filename: str, sheet: Optional[str] = None) -> str:
+        """Loads a CSV/TSV/Excel file into memory and returns summary information."""
         ext = os.path.splitext(path.lower())[1]
         if ext in [".xlsx", ".xls"]:
             self.df = pd.read_excel(path, sheet_name=sheet if sheet else 0)
@@ -205,6 +199,7 @@ class DataFrameStore:
         return self.summary()
 
     def summary(self) -> str:
+        """Returns basic summary including shape, columns, and head preview."""
         if self.df is None:
             return "[No dataframe loaded]"
         df = self.df
@@ -218,22 +213,26 @@ class DataFrameStore:
         )
 
     def head(self, n: int = 20) -> str:
+        """Returns the first n rows of the loaded dataframe."""
         if self.df is None:
             return "[No dataframe loaded]"
         n = max(1, min(int(n), 100))
         return self.df.head(n).to_string(index=False)
 
     def columns(self) -> str:
+        """Returns dataframe column names as JSON string."""
         if self.df is None:
             return "[No dataframe loaded]"
         return json.dumps(list(self.df.columns), ensure_ascii=False)
 
     def shape(self) -> str:
+        """Returns dataframe shape as string tuple."""
         if self.df is None:
             return "[No dataframe loaded]"
         return str(tuple(self.df.shape))
 
     def filter_query(self, expr: str, limit: int = 50) -> str:
+        """Filters dataframe rows using a validated pandas query expression."""
         if self.df is None:
             return "[No dataframe loaded]"
         if not _is_safe_query(expr):
@@ -246,6 +245,7 @@ class DataFrameStore:
         return out.head(limit).to_string(index=False)
 
     def value_counts(self, column: str, limit: int = 50) -> str:
+        """Returns value frequency counts for a specified column."""
         if self.df is None:
             return "[No dataframe loaded]"
         if column not in self.df.columns:
@@ -254,6 +254,7 @@ class DataFrameStore:
         return vc.to_string()
 
     def sum_column(self, column: str, where: Optional[str] = None) -> str:
+        """Computes sum of a numeric column optionally filtered by condition."""
         if self.df is None:
             return "[No dataframe loaded]"
         if column not in self.df.columns:
@@ -273,6 +274,7 @@ class DataFrameStore:
         return str(s)
 
     def count_rows(self, where: Optional[str] = None) -> str:
+        """Returns row count optionally filtered by condition."""
         if self.df is None:
             return "[No dataframe loaded]"
         df = self.df
@@ -286,14 +288,12 @@ class DataFrameStore:
         return str(len(df))
 
 
-# ============================================================
-# File Reader
-# ============================================================
 
 SUPPORTED_TEXT_EXT = {".txt", ".md", ".json", ".log", ".csv", ".tsv", ".xlsx", ".xls"}
 
 
 def _read_text_snippet(path: str, max_chars: int = 8000) -> str:
+    """Reads and returns a safe preview snippet from supported file types."""
     ext = os.path.splitext(path.lower())[1]
     if ext not in SUPPORTED_TEXT_EXT:
         return f"[Skipped unsupported file type: {os.path.basename(path)}]"
@@ -332,10 +332,6 @@ def _read_text_snippet(path: str, max_chars: int = 8000) -> str:
     return f"[Unsupported read_file for ext {ext}]"
 
 
-# ============================================================
-# Tool API Proxy (calculator + file + dataframe tools)
-# ============================================================
-
 class ToolAPIProxy:
     """
     Tools (emit in model output as):
@@ -357,14 +353,17 @@ class ToolAPIProxy:
         self.df_store = DataFrameStore()
 
     def set_files_map(self, files_map: Dict[str, str]):
+        """Updates internal file mapping used for tool resolution."""
         self.files_map = files_map or {}
 
     def _resolve_file(self, filename: str) -> Tuple[bool, Optional[str], Optional[str]]:
+        """Resolves filename to path using internal file map."""
         if filename not in self.files_map:
             return False, None, f"Unknown file '{filename}'"
         return True, self.files_map[filename], None
 
     def call(self, name: str, argument: str) -> Tuple[bool, str, Optional[str]]:
+        """Dispatches and executes a supported tool call."""
         try:
             # calculator
             if name == "calculator":
@@ -450,11 +449,6 @@ class ToolAPIProxy:
         except Exception as e:
             return False, "", str(e)
 
-
-# ============================================================
-# AgentConfig (no dataclass; avoids your earlier dataclass import issues)
-# ============================================================
-
 class AgentConfig:
     def __init__(
         self,
@@ -483,11 +477,6 @@ class AgentConfig:
         self.auto_read_text = bool(auto_read_text)
         self.debug = bool(debug)
 
-
-# ============================================================
-# LLM Wrapper (HF)
-# ============================================================
-
 class HFLLM:
     def __init__(self, model_id: str, temperature: float, top_p: float, max_new_tokens: int):
         import torch
@@ -509,6 +498,7 @@ class HFLLM:
         self.max_new_tokens = int(max_new_tokens)
 
     def generate(self, system_prompt: str, user_prompt: str) -> str:
+        """Generates model response using HuggingFace chat template."""
         messages = [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt},
@@ -537,12 +527,6 @@ class HFLLM:
         input_len = inputs["input_ids"].shape[1]
         new_tokens = out[0][input_len:]
         return self.tokenizer.decode(new_tokens, skip_special_tokens=True).strip()
-
-
-# ============================================================
-# Strict Closed-World R2A2 Agent (Plan -> Act(tool loop) -> Reflect)
-# Key GAIA FIX: accept sample["Question"] (capital Q)
-# ============================================================
 
 class StrictClosedWorldR2A2Agent:
     SYSTEM_PLAN = """
@@ -595,10 +579,10 @@ NEXT: <1 short concrete next action>
         self.files_map: Dict[str, str] = files_map or {}
         self.scratchpad = Scratchpad(max_chars=cfg.scratchpad_max_chars)
 
-    # ---------------- input extraction (GAIA robust) ----------------
 
     @staticmethod
     def _extract_question(sample: Dict[str, Any]) -> str:
+        """Extracts question text from various possible dataset keys."""
         for key in ["question", "Question", "prompt", "Prompt"]:
             val = sample.get(key)
             if val is not None and str(val).strip():
@@ -611,18 +595,20 @@ NEXT: <1 short concrete next action>
 
     @staticmethod
     def _extract_files(sample: Dict[str, Any]) -> Dict[str, str]:
+        """Extracts file mapping dictionary from dataset sample."""
         files = sample.get("files")
         if isinstance(files, dict):
             return files
         return {}
 
-    # ---------------- refusal / gating ----------------
 
     def _refuse(self, reason: str, audit: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Creates refusal response with audit trail."""
         audit.append({"phase": "refusal", "reason": reason})
         return {"answer": "UNSUPPORTED_TASK", "audit_trail": audit}
 
     def _capability_gate(self, question: str, audit: List[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
+        """Performs closed-world capability checks and blocks unsupported tasks."""
         ql = (question or "").lower()
 
         if not question.strip():
@@ -639,13 +625,11 @@ NEXT: <1 short concrete next action>
 
         return None
 
-    # ---------------- tool auto-detection ----------------
-
     def _auto_tools(self, audit: List[Dict[str, Any]]):
+        """Automatically loads initial table or text file if available."""
         if not self.files_map:
             return
 
-        # 1) Prefer loading first tabular file
         if self.cfg.auto_load_table:
             for fn, path in self.files_map.items():
                 ext = os.path.splitext(path.lower())[1]
@@ -665,7 +649,6 @@ NEXT: <1 short concrete next action>
                     # only load one by default
                     break
 
-        # 2) If no dataframe loaded, read a small snippet of first text-like file
         if self.cfg.auto_read_text:
             for fn, path in self.files_map.items():
                 ext = os.path.splitext(path.lower())[1]
@@ -684,9 +667,9 @@ NEXT: <1 short concrete next action>
                         self.scratchpad.add(f"[AUTO read_file ERROR {fn}] {err}")
                     break
 
-    # ---------------- prompt composition ----------------
 
     def _compose_context(self, question: str, plan_text: str, last_output: str = "") -> str:
+        """Composes structured context prompt for LLM phases."""
         files_txt = ", ".join(self.files_map.keys()) if self.files_map else "(none)"
         sp = str(self.scratchpad)
         return (
@@ -697,7 +680,6 @@ NEXT: <1 short concrete next action>
             f"LAST_OUTPUT:\n{last_output}\n"
         ).strip()
 
-    # ---------------- act loop (tool execution) ----------------
 
     def _act_once(
         self,
@@ -707,6 +689,7 @@ NEXT: <1 short concrete next action>
         audit: List[Dict[str, Any]],
         iteration: int,
     ) -> Tuple[str, Optional[str]]:
+        """Executes one act phase including tool execution and answer detection."""
         act_prompt = self._compose_context(question, plan_text, last_output=last_output)
         raw = self.model.generate(self.SYSTEM_ACT, act_prompt)
 
@@ -743,7 +726,6 @@ NEXT: <1 short concrete next action>
 
         return raw, None
 
-    # ---------------- reflection ----------------
 
     def _reflect(
         self,
@@ -753,6 +735,7 @@ NEXT: <1 short concrete next action>
         audit: List[Dict[str, Any]],
         iteration: int,
     ) -> str:
+        """Runs reflection phase to decide whether to stop or continue."""
         ref_prompt = self._compose_context(question, plan_text, last_output=last_output)
         ref = self.model.generate(self.SYSTEM_REFLECT, ref_prompt)
 
@@ -780,12 +763,11 @@ NEXT: <1 short concrete next action>
 
         return decision
 
-    # ---------------- solve ----------------
 
     def solve(self, sample: Dict[str, Any]) -> Dict[str, Any]:
+        """Runs full Plan-Act-Reflect loop to solve a single task."""
         audit: List[Dict[str, Any]] = []
 
-        # GAIA FIX: accept "Question"
         question = self._extract_question(sample)
         files_map = self._extract_files(sample)
 
@@ -797,21 +779,17 @@ NEXT: <1 short concrete next action>
                 "files": list(files_map.keys()) if isinstance(files_map, dict) else None,
             })
 
-        # Update internal file map + tool map
         self.files_map = files_map or {}
         self.tools.set_files_map(self.files_map)
 
-        # Reset scratchpad for this task
         self.scratchpad.clear()
 
         gated = self._capability_gate(question, audit)
         if gated is not None:
             return gated
 
-        # Auto tool detection (optional pre-load)
         self._auto_tools(audit)
 
-        # Plan
         plan_text = self.model.generate(self.SYSTEM_PLAN, question)
         audit.append({
             "phase": "plan",
@@ -822,7 +800,6 @@ NEXT: <1 short concrete next action>
         last_output = ""
         final_answer: Optional[str] = None
 
-        # Main loop
         for it in range(1, self.cfg.max_steps + 1):
             last_output, fa = self._act_once(
                 question=question,
@@ -833,7 +810,6 @@ NEXT: <1 short concrete next action>
             )
 
             if fa is not None:
-                # (fa can be "" if model said FINAL ANSWER: with empty)
                 final_answer = fa if fa else "I don't know."
                 break
 
@@ -846,7 +822,6 @@ NEXT: <1 short concrete next action>
             )
 
             if decision == "STOP":
-                # Force final answer once
                 force_prompt = self._compose_context(question, plan_text, last_output=last_output)
                 forced = self.model.generate(
                     self.SYSTEM_ACT,
@@ -856,8 +831,6 @@ NEXT: <1 short concrete next action>
                 fa2 = extract_final_answer(forced)
                 final_answer = fa2 if fa2 else "I don't know."
                 break
-
-            # Replan (optional)
             if it < self.cfg.max_steps:
                 replanning_prompt = (
                     f"QUESTION:\n{question}\n\n"
@@ -882,103 +855,8 @@ NEXT: <1 short concrete next action>
             "audit_trail": audit,
         }
 
-
-# ============================================================
-# HAL ENTRYPOINT
-# ============================================================
-
-# def run(sample: Dict[str, Any], **kwargs) -> Dict[str, Any]:
-#     cfg = AgentConfig(
-#         model_id=kwargs.get("model_name", kwargs.get("model_id", "Qwen/Qwen2.5-7B-Instruct")),
-#         temperature=kwargs.get("temperature", 0.0),
-#         top_p=kwargs.get("top_p", 0.95),
-#         max_new_tokens=kwargs.get("max_new_tokens", 512),
-#         max_steps=kwargs.get("max_steps", 12),
-#         max_tool_calls_per_step=kwargs.get("max_tool_calls_per_step", 6),
-#         scratchpad_max_chars=kwargs.get("scratchpad_max_chars", 14000),
-#         auto_load_table=kwargs.get("auto_load_table", True),
-#         auto_read_text=kwargs.get("auto_read_text", True),
-#         debug=kwargs.get("debug", False),
-#     )
-
-#     agent = StrictClosedWorldR2A2Agent(cfg, sample.get("files") or {})
-#     return agent.solve(sample)
-
-# def run(sample: Dict[str, Any], **kwargs) -> Dict[str, Any]:
-
-#     print("===== DEBUG SAMPLE KEYS =====")
-#     print(sample.keys())
-#     print("===== DEBUG SAMPLE CONTENT =====")
-#     print(sample)
-#     print("===============================")
-
-#     return {
-#         "answer": "DEBUG",
-#         "audit_trail": [],
-#     }
-
-# def run(sample: Dict[str, Any], **kwargs) -> Dict[str, Any]:
-
-#     # ------------------------------------------------
-#     # HAL wraps GAIA sample inside {task_id: record}
-#     # We must unwrap it.
-#     # ------------------------------------------------
-
-#     if len(sample) == 1 and isinstance(next(iter(sample.values())), dict):
-#         record = next(iter(sample.values()))
-#     else:
-#         record = sample
-
-#     # ------------------------------------------------
-#     # Extract question correctly
-#     # ------------------------------------------------
-
-#     question = record.get("Question") or record.get("prompt") or ""
-
-#     if not question or not str(question).strip():
-#         return {
-#             "answer": "UNSUPPORTED_TASK",
-#             "audit_trail": [{
-#                 "phase": "refusal",
-#                 "reason": "Empty question after unwrap."
-#             }],
-#         }
-
-#     # ------------------------------------------------
-#     # Extract files (if any)
-#     # ------------------------------------------------
-
-#     files = {}
-#     if record.get("file_name"):
-#         files[record["file_name"]] = record.get("file_path", "")
-
-#     # ------------------------------------------------
-#     # Build config
-#     # ------------------------------------------------
-
-#     cfg = AgentConfig(
-#         model_id=kwargs.get("model_id", "Qwen/Qwen2.5-7B-Instruct"),
-#         temperature=kwargs.get("temperature", 0.0),
-#         top_p=kwargs.get("top_p", 0.95),
-#         max_new_tokens=kwargs.get("max_new_tokens", 512),
-#         max_steps=kwargs.get("max_steps", 6),
-#         max_tool_calls_per_step=kwargs.get("max_tool_calls_per_step", 6),
-#         scratchpad_max_chars=kwargs.get("scratchpad_max_chars", 14000),
-#         auto_load_table=kwargs.get("auto_load_table", True),
-#     )
-
-#     agent = StrictClosedWorldR2A2Agent(cfg, files)
-
-#     return agent.solve({
-#         "question": question,
-#         "files": files,
-#     })
-
 def run(sample: Dict[str, Any], **kwargs) -> Dict[str, Any]:
-
-    # ------------------------------------------------
-    # GAIA sample is wrapped as {task_id: record}
-    # ------------------------------------------------
+    """HAL entrypoint that unwraps GAIA sample, runs agent, and returns structured result."""
 
     if len(sample) == 1 and isinstance(next(iter(sample.values())), dict):
         task_id = next(iter(sample.keys()))
