@@ -4,3 +4,5 @@ datasets==2.18.0
 huggingface-hub==0.22.2  
 pyarrow==25.3  
 jsonlines==4.0.0
+torch==2.6.0
+transformers==4.57.3

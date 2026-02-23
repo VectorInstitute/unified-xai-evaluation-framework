@@ -39,6 +39,7 @@ The agent enforces:
 
 ## 📁 Project Structure
 
+```text
 hal-harness/
 │
 ├── agents/
@@ -51,8 +52,8 @@ hal-harness/
 │   └── gaia.py
 │
 ├── evaluation.py
-
----
+├── requirements.txt
+```
 
 ## 🔒 Closed-World Constraints
 
@@ -126,10 +127,20 @@ All DataFrame operations are sandboxed with strict validation.
 
 The calculator tool uses Python AST parsing with restricted operators.
 
-Allowed:
-+  -  *  /  //  %  **
-Unary + and -
+### Allowed Operators
 
+#### Binary Operators
+- `+`  (Addition)
+- `-`  (Subtraction)
+- `*`  (Multiplication)
+- `/`  (Division)
+- `//` (Floor Division)
+- `%`  (Modulus)
+- `**` (Exponentiation)
+
+#### Unary Operators
+- `+`  (Unary Plus)
+- `-`  (Unary Minus)
 Blocked:
 Imports
 Function calls
@@ -172,12 +183,14 @@ export HF_TOKEN=your_token_here
 
 Example command:
 
+```bash
 hal-eval \
   --benchmark gaia \
   --agent_dir agents/r2a2_gaia \
   --agent_function main.run \
   --agent_name "DEBUG" \
   -A model_name="meta-llama/Meta-Llama-3.1-8B-Instruct"
+```
 
 Optional overrides:
 
