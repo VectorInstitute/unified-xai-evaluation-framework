@@ -84,40 +84,19 @@ CALL: tool_name: argument
 Example:
 CALL: calculator: 12 * (5 + 3)
 
-Supported Tools:
+### Supported Tools
 
-calculator  
-Safe arithmetic evaluation using restricted AST parsing.
-
-read_file  
-Read local text, json, or log files.
-
-load_table  
-Load CSV/Excel files into a pandas DataFrame.
-
-df_summary  
-Return DataFrame overview.
-
-df_head  
-Return first N rows.
-
-df_columns  
-List column names.
-
-df_shape  
-Return table shape.
-
-df_filter  
-Safe pandas .query() execution with validation.
-
-df_value_counts  
-Frequency counts for a column.
-
-df_sum  
-Conditional column sum.
-
-df_count  
-Conditional row count.
+- `calculator` — Safe arithmetic evaluation using restricted AST parsing  
+- `read_file` — Read local text, JSON, or log files  
+- `load_table` — Load CSV/Excel files into a pandas DataFrame  
+- `df_summary` — Return DataFrame overview  
+- `df_head` — Return first N rows  
+- `df_columns` — List column names  
+- `df_shape` — Return table shape  
+- `df_filter` — Safe pandas `.query()` execution with validation  
+- `df_value_counts` — Frequency counts for a column  
+- `df_sum` — Conditional column sum  
+- `df_count` — Conditional row count
 
 All DataFrame operations are sandboxed with strict validation.
 
@@ -141,13 +120,14 @@ The calculator tool uses Python AST parsing with restricted operators.
 #### Unary Operators
 - `+`  (Unary Plus)
 - `-`  (Unary Minus)
+
 Blocked:
-Imports
-Function calls
-Attribute access
-OS interaction
-Exec / eval
-Dynamic code execution
+- Imports
+- Function calls
+- Attribute access
+- OS interaction
+- Exec / eval
+- Dynamic code execution
 
 ---
 
@@ -214,7 +194,7 @@ Supported:
 
 Install required packages:
 
-pip install torch transformers matplotlib
+pip install requirements.txt
 
 The agent automatically selects:
 - bfloat16 if CUDA is available
@@ -234,7 +214,6 @@ datasets
 huggingface-hub  
 pyarrow  
 jsonlines  
-matplotlib  
 
 ---
 
@@ -318,17 +297,7 @@ Final combined responsibility score.
 
 After running evaluation:
 
-r2a2_metrics_output.csv  
-r2a2_radar_plot.png  
-
-The radar plot visualizes:
-
-RC  
-TS  
-RRI  
-CoT_RS  
-RRC  
-AGR  
+r2a2_metrics_output.csv 
 
 ---
 
@@ -384,6 +353,14 @@ Infinite loops:
 Reduce max_steps and max_tool_calls_per_step.
 
 ---
+## 🖥 Hardware Recommendation
+
+If you are using open-source models (LLaMA, Qwen, etc.), it is strongly recommended to use:
+
+- **NVIDIA A40**
+- **NVIDIA A100**
+
+These GPUs ensure stable inference and prevent memory issues when running larger models. This way of implementation supports only the models that are supported by hal-harness
 
 ## 🎯 Summary
 
