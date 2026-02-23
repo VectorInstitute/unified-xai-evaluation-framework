@@ -1,0 +1,6 @@
+pandas==2.2.1
+numpy==1.26.4  
+datasets==2.18.0
+huggingface-hub==0.22.2  
+pyarrow==25.3  
+jsonlines==4.0.0
