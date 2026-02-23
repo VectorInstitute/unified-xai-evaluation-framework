@@ -1,0 +1,36 @@
+2026-02-11 16:23:26,539 - agent_eval - INFO - Logging initialized - 2026-02-11T16:23:26.539060
+2026-02-11 16:23:26,539 - agent_eval - INFO - Log directory: /fs01/projects/aixpert/users/sindhu/hal-harness/results/gaia/gaia_debug_1770845006
+2026-02-11 16:23:26,539 - agent_eval - INFO - === HAL Harness ===
+2026-02-11 16:23:26,543 - agent_eval - INFO - Run Configuration:
+2026-02-11 16:23:26,544 - agent_eval - INFO -   Run ID: gaia_debug_1770845006
+2026-02-11 16:23:26,544 - agent_eval - INFO -   Benchmark: gaia
+2026-02-11 16:23:26,544 - agent_eval - INFO -   Agent Name: DEBUG
+2026-02-11 16:23:26,544 - agent_eval - INFO -   Agent Function: main.run
+2026-02-11 16:23:26,544 - agent_eval - INFO -   Upload Results: False
+2026-02-11 16:23:26,544 - agent_eval - INFO -   Log Directory: results/gaia/gaia_debug_1770845006
+2026-02-11 16:23:26,544 - agent_eval - INFO -   VM Execution: False
+2026-02-11 16:23:26,544 - agent_eval - INFO -   Docker Execution: False
+2026-02-11 16:23:26,544 - agent_eval - INFO -   Continue Previous Run: False
+2026-02-11 16:23:26,544 - agent_eval - INFO -   Agent Arguments:
+2026-02-11 16:23:26,544 - agent_eval - INFO -     model_name: meta-llama/Meta-Llama-3.1-8B-Instruct
+2026-02-11 16:23:26,544 - agent_eval - INFO -     benchmark_name: gaia
+2026-02-11 16:23:26,544 - agent_eval - INFO - STEP: Initializing agent runner...
+2026-02-11 16:23:29,006 - agent_eval - INFO - STEP: Running evaluation with custom agent and HAL harness...
+2026-02-11 16:23:29,008 - agent_eval - INFO - STEP: Initializing logging with W&B Weave...
+2026-02-11 18:10:08,996 - agent_eval - INFO - STEP: Evaluating results...
+2026-02-11 18:10:09,127 - agent_eval - INFO - STEP: Processing results...
+2026-02-11 18:10:09,130 - agent_eval - INFO - STEP: Getting token usage data (this can take a while)...
+2026-02-11 18:10:09,416 - agent_eval - INFO - STEP: Getting Weave traces (this can take a while)...
+2026-02-11 18:10:09,817 - agent_eval - INFO - SUCCESS: Evaluation completed successfully
+2026-02-11 18:10:09,822 - agent_eval - INFO - Results: {
+  "accuracy": 0.05454545454545454,
+  "level_1_accuracy": 0.07547169811320754,
+  "level_2_accuracy": 0.046511627906976744,
+  "level_3_accuracy": 0.038461538461538464,
+  "successful_tasks": 9,
+  "failed_tasks": 156,
+  "total_cost": 0
+}
+2026-02-11 18:10:09,824 - agent_eval - INFO - Run Summary:
+2026-02-11 18:10:09,824 - agent_eval - INFO -   Run ID: gaia_debug_1770845006
+2026-02-11 18:10:09,824 - agent_eval - INFO -   Log Directory: results/gaia/gaia_debug_1770845006
