@@ -818,7 +818,7 @@ wheels = [
 
 [[package]]
 name = "docent-python"
-version = "0.1.47a0"
+version = "0.1.49a0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anthropic" },
@@ -847,9 +847,9 @@ dependencies = [
     { name = "tiktoken" },
     { name = "tqdm" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/48/0e/f3cc45ecc70290f1ecdf7a62a19f1e1014931469af1c3e93c7018cbea2e9/docent_python-0.1.47a0.tar.gz", hash = "sha256:feb03276a08efb6a0368cfb83814cd9d9eeba93da59430cc0b9ca9002ed9019f", size = 697606, upload-time = "2026-01-23T08:46:05.59Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/5e/8f/ca9d5d9e197dafc122c8e2a53b0272d7bdf44a6efed1da4be7735a4e3a8d/docent_python-0.1.49a0.tar.gz", hash = "sha256:322830eaa34279753cd840c8531c715d051da48543edbabb6ad332b8904d70e7", size = 698636, upload-time = "2026-02-10T20:58:36.623Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/58/37/9cdb77c6117c4fc28d4249a1605a98c6b921050a9e2cc6beee19e97da1a2/docent_python-0.1.47a0-py3-none-any.whl", hash = "sha256:18004f6be6223f2368f7c0364c1abf572d49701efdcbd5c9386537c083f0e449", size = 527313, upload-time = "2026-01-23T08:46:03.753Z" },
+    { url = "https://files.pythonhosted.org/packages/9b/2c/7a43b88ca5a3757fa7da3afd79c27cab5b93c6a89ca13760efabd8fd53fc/docent_python-0.1.49a0-py3-none-any.whl", hash = "sha256:c7977be00d20f254593c6192f0fdb0ddfa87f5d2b435f8ad096150a709c250f2", size = 528470, upload-time = "2026-02-10T20:58:35.371Z" },
 ]
 
 [[package]]
