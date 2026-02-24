@@ -26,3 +26,5 @@ site/
 
 .venv/
 hal-harness/.venv/
+
+.env
